@@ -16,9 +16,16 @@ def add_data():
     print(received_data)
     data[str(time.ctime())] = received_data
     save_json(data)
-
     return data
 
+@app.route("/last", methods=['GET'])
+def get_last():
+    lastKey = list(data)[-1]
+    return data[lastKey]
+
+@app.route("/all", methods=['GET'])
+def get_all():
+    return json.dumps(data, indent=4)
 
 
 def read_json():
