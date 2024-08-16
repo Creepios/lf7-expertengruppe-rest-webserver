@@ -12,11 +12,9 @@
     + [Update](#update--put--http---17220181253-5001-update--)
     + [Delete](#delete--delete--http---17220181253-5001-delete--)
 
-## Name: 
+## Description: 
 
 REST API & Webserver
-
-## Description: 
 
 This API allows interaction with a webserver running on a Raspberry Pi.
 
