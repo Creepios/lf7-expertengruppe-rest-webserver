@@ -30,7 +30,7 @@ Note: You might need to adjust the base_url variable depending on your network c
 
 The API offers five main functionalities: Read, Last, Create, Update, and Delete.
 
-![API](res/API.png)
+![API](res/APl.png)
 
 ### Read (GET /http://172.20.181.253:5001/read):
 
