@@ -1,6 +1,6 @@
 # Information
 
-[[_TOC_]]
+[[__TOC__]]
 
 ## Name: 
 
