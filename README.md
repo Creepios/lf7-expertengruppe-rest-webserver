@@ -107,7 +107,8 @@ Deletes existing data from the webserver.
 Request:
 - Method: 
     * DELETE
-    * No headers required
+    * **n** can be added to the header, if you want to remove only a specific amount of date
+    * This works after FIFO
 
 - Body:
     * Empty
