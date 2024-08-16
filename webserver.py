@@ -81,13 +81,24 @@ def get_last():
 @app.route("/delete", methods=['DELETE'])
 def delete_data():
     logger.info("Received a DELETE request")
-    data.clear()
+    n = request.args.get('n')
+    if n is None:
+        data.clear()
+    else:
+        n = int(n)
+        for _ in range(n):
+            if data:
+                data.pop(next(iter(data)))
     save_json(data)
-    logger.info("Data deleted successfully")
-    return jsonify({"message": "Data deleted successfully"})
+    if n is None:
+        logger.info("Deleted all items successfully")
+        return jsonify({"message": "Deleted all items successfully"})
+    else:
+        logger.info(f"Deleted {n} items successfully")
+        return jsonify({"message": f"Deleted {n} items successfully"})
 
 @app.route("/update", methods=['PUT'])
-def update_data():
+def update_data():  
     logger.info("Received a PUT request")
     received_data = request.get_json()
     if "key" in received_data and "value" in received_data:
