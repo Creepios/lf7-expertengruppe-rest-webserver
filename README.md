@@ -30,7 +30,10 @@ Note: You might need to adjust the base_url variable depending on your network c
 
 ## Endpoints
 
-The API offers four main functionalities: Read, Create, Update, and Delete.
+The API offers five main functionalities: Read, Last, Create, Update, and Delete.
+
+![API](res/API.png)
+
 ### Read (GET /http://172.20.181.253:5001/read):
 
 Retrieves data from the webserver.
@@ -115,6 +118,3 @@ Response:
 - Description: 
     * May be empty.
     * Successful response code: 200 OK, 202 Accepted, or 204 No Content
-
-
-![API](res/API.png)
