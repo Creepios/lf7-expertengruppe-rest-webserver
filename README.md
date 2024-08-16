@@ -1,6 +1,16 @@
 # Information
 
-[[__TOC__]]
+- [Information](#information)
+  * [Name:](#name-)
+  * [Description:](#description-)
+  * [Variables](#variables)
+    + [base_pi_url:](#base_pi_url-)
+  * [Endpoints](#endpoints)
+    + [Read](#read--get--http---17220181253-5001-read--)
+    + [Last](#last--get--http---17220181253-5001-last--)
+    + [Create](#create--post--http---17220181253-5001-create--)
+    * [Update](#update--put--http---17220181253-5001-update--)
+    + [Delete](#delete--delete--http---17220181253-5001-delete--)
 
 ## Name: 
 
@@ -12,7 +22,7 @@ This API allows interaction with a webserver running on a Raspberry Pi.
 
 ## Variables
 
-### base_url:
+### base_pi_url:
 
 This variable stores the base URL of the webserver for reference. It is currently set to "http://172.20.181.253:5001/"
 
