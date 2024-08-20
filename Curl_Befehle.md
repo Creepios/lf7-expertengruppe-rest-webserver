@@ -1,5 +1,6 @@
 - [Curl Befehle für die API](#curl-befehle-für-die-api)
    * [Warum curl für APIs?](#warum-curl-für-apis)
+   * [Information](#information)
    * [GET](#get)
    * [POST](#post)
    * [PUT](#put)
@@ -19,6 +20,12 @@ curl ist ein leistungsstarkes Kommandozeilen-Tool, das zum Übertragen von Daten
 - Flexibilität: curl unterstützt eine Vielzahl von HTTP-Methoden (GET, POST, PUT, DELETE) und ermöglicht die Übermittlung verschiedener Datenformate (JSON, XML, Form-Data).
 - Debugging: curl ist ein unverzichtbares Werkzeug, um API-Anfragen zu testen und Fehler zu beheben.
 - Automatisierung: curl kann in Skripten integriert werden, um automatisierte Aufgaben auszuführen, wie z.B. das regelmäßige Abrufen von Daten oder das Ausführen von Batch-Updates.
+
+<!-- TOC --><a name="Informationen"></a>
+## Information
+
+In dieser Darstellung wird die IP `172.20.181.253:5001` genutzt.
+Diese ist von Pi zu Pi unterschiedlich.
 
 <!-- TOC --><a name="get"></a>
 ## GET
