@@ -42,7 +42,7 @@ Der Befehl hierfür lautet:
 ```bash
 curl -X GET http://172.20.181.112:5001/read
 ```
-Weitere Befehle sind in [Curl_Befehle.md](https://github.com/Creepios/lf7-expertengruppe-rest-webserver/Curl_Befehle.md) aufgeführt.
+Weitere Befehle sind in [Curl_Befehle.md](https://github.com/Creepios/lf7-expertengruppe-rest-webserver/blob/main/Curl_Befehle.md) aufgeführt.
 
 ### Stoppen des Webservers
 Mit gestartetem Webserver kann man Strg + C drücken um den Webserver zu beenden.
