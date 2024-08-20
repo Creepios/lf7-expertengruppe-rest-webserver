@@ -4,12 +4,12 @@ import time
 from flask import Flask, request, jsonify
 import logging
 
-
+# Set-up der Log-Funktion
 def setup_logger(log_file):
     logger = logging.getLogger(__name__)
     logger.setLevel(logging.DEBUG)
 
-    # Create a file handler
+    # Handling der Datei der Logs
     file_handler = logging.FileHandler(log_file)
     file_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
     logger.addHandler(file_handler)
@@ -18,8 +18,11 @@ def setup_logger(log_file):
 
 logger = setup_logger('api_logs.log')
 
+
+## Initialisierung der Flask App
 app = Flask(__name__)
 
+# Log-Funktion
 def log_request(ip_address, endpoint, method, user_agent=None, referrer=None):
     logger.info(f"Received {method} request from {ip_address} to {endpoint} (User-Agent: {user_agent}, Referrer: {referrer})")
 
@@ -47,10 +50,20 @@ if os.path.exists('data.json'):
     with open('data.json', 'r') as jsonfile:
         data = json.load(jsonfile)
 
+
+# Standard Pfad
+# Wenn dieser Pfad (http://172.20.181.253:5001/) aufgerufen wird, wird dies dargestellt
 @app.route("/")
 def hello_world():
     return "<h1>Die Expertengruppe der Experten</h1>"
 
+
+# Methode zur Erstellung der Daten
+#
+# Ein API-Call zu dem Pfad /create erstellt einen neuen Eintrag und speichert diesen
+# Hier muss ein gewisser Datensatz mit angegeben werden
+# 
+# Der Aufruf muss aus einem "value" und einem Wert als Integer oder Float bestehen
 @app.route("/create", methods=['POST'])
 def add_data():
     logger.info("Received a POST request")
@@ -63,12 +76,20 @@ def add_data():
     else:
         logger.error("Invalid data. Please provide a single float or double value.")
         return jsonify({"error": "Invalid data. Please provide a single float or double value."}), 400
-    
+
+
+## Methode zum Lesen aller Daten
+# 
+# Der Aufruf über /read liest alle Daten aus, die aktuell zur Verfügung stehen und gibt sie zurück
 @app.route("/read", methods=['GET'])
 def read_data():
     logger.info("Received a GET request")
     return jsonify(data)
 
+
+## Methode zum Lesen des letzten Eintrages
+# 
+# Über den Aufruf mit /last kann der letzte Wert, welcher zur Verfügung steht, ausgelesen werden
 @app.route("/last", methods=['GET'])
 def get_last():
     if not data:
@@ -78,6 +99,19 @@ def get_last():
     logger.info("Received a GET request")
     return jsonify({lastKey: data[lastKey]})
 
+
+## Methode zum Löschen der Daten
+#
+# Die /delete -Route hat zwei Funktionen 
+# 
+# Es besteht die Möglichkeit, nur den /delete Pfad zu verwenden.
+# Hier werden dann alle Einträge gelöscht, die aktuell vorhanden sind
+# 
+# Allerdings kann auch ein weiteres Argument angegeben werden.
+# Bsp.: http://172.20.181.253:5001/delete?n=2
+# In dem Beispiel werden nur die genannte Anzahl gelöscht
+#
+# Hier wird FIFO benutzt
 @app.route("/delete", methods=['DELETE'])
 def delete_data():
     logger.info("Received a DELETE request")
@@ -97,6 +131,18 @@ def delete_data():
         logger.info(f"Deleted {n} items successfully")
         return jsonify({"message": f"Deleted {n} items successfully"})
 
+
+## Methode zur Überareitung der Daten
+#
+# Über /update können einzelne Einträge bearbeitet werden, ohne diese zu Löschen.
+#
+# Hier müssen wieder Daten mit übergeben werden
+# Daten müssen vorliegen als ein key und einem value
+#
+# In unserem Beispiel ist der key immer das Datum und Uhrzeit, wann ein Eintrag gesetzt wurde.
+# Dieser muss mit einem der aktuell vorhandenen Werte übereinstimmen
+# Tue Aug 20 10:24:07 2024
+# Der value ist kann dann auf den gewünschten Wert gesetzt werden
 @app.route("/update", methods=['PUT'])
 def update_data():  
     logger.info("Received a PUT request")
@@ -120,10 +166,19 @@ def update_data():
         return jsonify({"error": "Invalid request. Please provide key and value."}), 400
 
 
+## Funktion zum speichern der Daten in einer JSON-Datei
 def save_json(data):
     with open('data.json', 'w') as jsonfile:
         json.dump(data, jsonfile)
 
+
+## Der Main-Wächter
+# Dieser Codeblock wird nur ausgeführt, wenn das Skript
+# direkt gestartet wird (z.B. durch Ausführen des Skripts in der Kommandozeile).
+# Wenn das Skript als Modul von einem anderen Skript importiert wird, wird
+# dieser Codeblock übersprungen.
+#
+# Der Flask-Webservers wird hier auf den Port 5001 festgelegt
 if __name__ == '__main__':
     print("Server is running")
     app.run(debug=True, port=5001, host='0.0.0.0')
