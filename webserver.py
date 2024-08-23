@@ -6,6 +6,12 @@ import logging
 
 # Set-up der Log-Funktion
 def setup_logger(log_file):
+    """
+    Einrichten des Loggers.
+
+    :param log_file: Dateiname für die Log-Datei
+    :return: Logger-Objekt
+    """
     logger = logging.getLogger(__name__)
     logger.setLevel(logging.DEBUG)
 
@@ -24,6 +30,15 @@ app = Flask(__name__)
 
 # Log-Funktion
 def log_request(ip_address, endpoint, method, user_agent=None, referrer=None):
+    """
+    Protokolliert einen Request.
+
+    :param ip_address: IP-Adresse des Clients
+    :param endpoint: Aufgerufener Endpoint
+    :param method: HTTP-Methode (z.B. GET, POST, etc.)
+    :param user_agent: User-Agent-String des Clients
+    :param referrer: Referrer-URL des Clients
+    """
     logger.info(f"Received {method} request from {ip_address} to {endpoint} (User-Agent: {user_agent}, Referrer: {referrer})")
 
 @app.before_request
@@ -55,6 +70,11 @@ if os.path.exists('data.json'):
 # Wenn dieser Pfad (http://172.20.181.253:5001/) aufgerufen wird, wird dies dargestellt
 @app.route("/")
 def hello_world():
+    """
+    Standard-Endpoint, der eine Begrüßung zurückgibt.
+
+    :return: HTML-String mit Begrüßung
+    """
     return "<h1>Die Expertengruppe der Experten</h1>"
 
 
@@ -66,6 +86,12 @@ def hello_world():
 # Der Aufruf muss aus einem "value" und einem Wert als Integer oder Float bestehen
 @app.route("/create", methods=['POST'])
 def add_data():
+    """
+    Erstellt einen neuen Eintrag und speichert ihn.
+
+    :param request: JSON-Request mit "value"-Feld
+    :return: JSON-Response mit dem neuen Eintrag
+    """
     logger.info("Received a POST request")
     received_data = request.get_json()
     if "value" in received_data and isinstance(received_data["value"], (float, int)): 
@@ -83,6 +109,11 @@ def add_data():
 # Der Aufruf über /read liest alle Daten aus, die aktuell zur Verfügung stehen und gibt sie zurück
 @app.route("/read", methods=['GET'])
 def read_data():
+    """
+    Liest alle Daten aus und gibt sie zurück.
+
+    :return: JSON-Response mit allen Daten
+    """
     logger.info("Received a GET request")
     return jsonify(data)
 
@@ -92,6 +123,11 @@ def read_data():
 # Über den Aufruf mit /last kann der letzte Wert, welcher zur Verfügung steht, ausgelesen werden
 @app.route("/last", methods=['GET'])
 def get_last():
+    """
+    Liest den letzten Eintrag aus und gibt ihn zurück.
+
+    :return: JSON-Response mit dem letzten Eintrag
+    """
     if not data:
         logger.error("No data available.")
         return jsonify({"error": "No data available"}), 404
@@ -114,6 +150,12 @@ def get_last():
 # Hier wird FIFO benutzt
 @app.route("/delete", methods=['DELETE'])
 def delete_data():
+    """
+    Löscht Daten.
+
+    :param n: Anzahl der zu löschenden Einträge (optional)
+    :return: JSON-Response mit Erfolgsmeldung
+    """
     logger.info("Received a DELETE request")
     n = request.args.get('n')
     if n is None:
@@ -132,7 +174,7 @@ def delete_data():
         return jsonify({"message": f"Deleted {n} items successfully"})
 
 
-## Methode zur Überareitung der Daten
+## Methode zur Überarbeitung der Daten
 #
 # Über /update können einzelne Einträge bearbeitet werden, ohne diese zu Löschen.
 #
@@ -145,6 +187,12 @@ def delete_data():
 # Der value ist kann dann auf den gewünschten Wert gesetzt werden
 @app.route("/update", methods=['PUT'])
 def update_data():  
+    """
+    Aktualisiert einen Eintrag.
+
+    :param request: JSON-Request mit "key" und "value"-Feldern
+    :return: JSON-Response mit Erfolgsmeldung
+    """
     logger.info("Received a PUT request")
     received_data = request.get_json()
     if "key" in received_data and "value" in received_data:
@@ -168,6 +216,11 @@ def update_data():
 
 ## Funktion zum speichern der Daten in einer JSON-Datei
 def save_json(data):
+    """
+    Speichert die Daten in einer JSON-Datei.
+
+    :param data: Daten-Dictionary
+    """
     with open('data.json', 'w') as jsonfile:
         json.dump(data, jsonfile)
 
